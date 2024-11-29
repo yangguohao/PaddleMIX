@@ -33,6 +33,7 @@ if is_paddle_available():
     _import_structure["t5_film_transformer"] = ["T5FilmDecoder"]
     _import_structure["transformer_2d"] = ["Transformer2DModel"]
     _import_structure["transformer_sd3"] = ["SD3Transformer2DModel"]
+    _import_structure["transformer_flux"] = ["FluxTransformer2DModel"]
     _import_structure["cogvideox_transformer_3d"] = ["CogVideoXTransformer3DModel"]
     _import_structure["transformer_temporal"] = ["TransformerTemporalModel"]
     _import_structure["unet_1d"] = ["UNet1DModel"]
@@ -85,6 +86,7 @@ if TYPE_CHECKING or PPDIFFUSERS_SLOW_IMPORT:
         from .modelscope_gaussion_sdedit import GaussianDiffusion_SDEdit
         from .modelscope_st_unet import STUNetModel
         from .modelscope_st_unet_video2video import Vid2VidSTUNet
+        from .transformer_flux import FluxTransformer2DModel
         from .paddleinfer_runtime import PaddleInferRuntimeModel
         from .prior_transformer import PriorTransformer
         from .t5_film_transformer import T5FilmDecoder
