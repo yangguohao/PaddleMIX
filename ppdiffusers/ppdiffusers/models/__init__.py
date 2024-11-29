@@ -32,6 +32,7 @@ if is_paddle_available():
     _import_structure["t5_film_transformer"] = ["T5FilmDecoder"]
     _import_structure["transformer_2d"] = ["Transformer2DModel"]
     _import_structure["transformer_sd3"] = ["SD3Transformer2DModel"]
+    _import_structure["transformer_flux"] = ["FluxTransformer2DModel"]
     _import_structure["transformer_temporal"] = ["TransformerTemporalModel"]
     _import_structure["unet_1d"] = ["UNet1DModel"]
     _import_structure["unet_2d"] = ["UNet2DModel"]
@@ -85,6 +86,7 @@ if TYPE_CHECKING or PPDIFFUSERS_SLOW_IMPORT:
         from .t5_film_transformer import T5FilmDecoder
         from .transformer_2d import Transformer2DModel
         from .transformer_sd3 import SD3Transformer2DModel
+        from .transformer_flux import FluxTransformer2DModel
         from .transformer_temporal import TransformerTemporalModel
         from .unet_1d import UNet1DModel
         from .unet_2d import UNet2DModel
