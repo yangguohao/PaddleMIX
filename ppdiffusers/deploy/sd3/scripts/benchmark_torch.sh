@@ -12,16 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-model_item=qwen2_vl_sft_2b
-model=qwen2_vl
-bs_item=1
-fp_item=bf16O2
-run_mode=DP
-device_num=N1C8
-max_epochs=3
-num_workers=8
+# sd3 do ot supprot attention raw
 
-# get data
-bash test_tipc/dygraph/dp/${model}/benchmark_common/prepare.sh
-# run
-bash test_tipc/dygraph/dp/${model}/benchmark_common/run_benchmark.sh ${model_item} ${bs_item} ${fp_item} ${run_mode} ${device_num} ${max_epochs} ${num_workers} 2>&1;
+# attention sdp
+python infer_dygraph_torch.py --scheduler "flow" --task_name all --attention_type sdp --use_fp16 True --inference_steps 50 --height 1024 --width 1024 --benchmark_steps 10 
+
+# attention sdp fp32
+python infer_dygraph_torch.py --scheduler "flow" --task_name all --attention_type sdp --use_fp16 False --inference_steps 50 --height 1024 --width 1024 --benchmark_steps 10 
