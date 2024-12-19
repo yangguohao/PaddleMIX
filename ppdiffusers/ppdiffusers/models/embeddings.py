@@ -1213,11 +1213,11 @@ def apply_rotary_emb(
     reshaped as complex numbers, and the frequency tensor is reshaped for broadcasting compatibility. The resulting
     tensors contain rotary embeddings and are returned as real tensors.
     Args:
-        x (`torch.Tensor`):
-            Query or key tensor to apply rotary embeddings. [B, H, S, D] xk (torch.Tensor): Key tensor to apply
-        freqs_cis (`Tuple[torch.Tensor]`): Precomputed frequency tensor for complex exponentials. ([S, D], [S, D],)
+        x (`Tensor`):
+            Query or key tensor to apply rotary embeddings. [B, H, S, D] xk (Tensor): Key tensor to apply
+        freqs_cis (`Tuple[Tensor]`): Precomputed frequency tensor for complex exponentials. ([S, D], [S, D],)
     Returns:
-        Tuple[torch.Tensor, torch.Tensor]: Tuple of modified query tensor and key tensor with rotary embeddings.
+        Tuple[Tensor, Tensor]: Tuple of modified query tensor and key tensor with rotary embeddings.
     """
     if use_real:
         cos, sin = freqs_cis  # [S, D]
