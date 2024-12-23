@@ -114,6 +114,7 @@ else:
             "AutoencoderKLTemporalDecoder",
             "AutoencoderTiny",
             "CogVideoXTransformer3DModel",
+            "CogVideoXTransformer3DVCtrlModel",
             "ConsistencyDecoderVAE",
             "ControlNetModel",
             "Kandinsky3UNet",
@@ -149,6 +150,8 @@ else:
             # new add
             "SD3ControlNetModel",
             "SD3MultiControlNetModel",
+            # new add
+            "VCtrlModel",
         ]
     )
 
@@ -168,6 +171,8 @@ else:
             "AutoPipelineForInpainting",
             "AutoPipelineForText2Image",
             "ConsistencyModelPipeline",
+            "CogVideoXVCtrlPipeline",
+            "CogVideoXVCtrlImageToVideoPipeline",
             "DanceDiffusionPipeline",
             "DDIMPipeline",
             "DDPMPipeline",
@@ -492,11 +497,12 @@ if TYPE_CHECKING or PPDIFFUSERS_SLOW_IMPORT:
         from .models import (  # new add
             AsymmetricAutoencoderKL,
             AutoencoderKL,
-            AutoencoderKLCogVideoX,
             AutoencoderKL_imgtovideo,
+            AutoencoderKLCogVideoX,
             AutoencoderKLTemporalDecoder,
             AutoencoderTiny,
             CogVideoXTransformer3DModel,
+            CogVideoXTransformer3DVCtrlModel,
             ConsistencyDecoderVAE,
             ControlNetModel,
             DiTLLaMA2DModel,
@@ -526,6 +532,7 @@ if TYPE_CHECKING or PPDIFFUSERS_SLOW_IMPORT:
             UNetMotionModel,
             UNetSpatioTemporalConditionModel,
             UViTT2IModel,
+            VCtrlModel,
             Vid2VidSTUNet,
             VQModel,
         )
@@ -545,6 +552,8 @@ if TYPE_CHECKING or PPDIFFUSERS_SLOW_IMPORT:
             AutoPipelineForText2Image,
             BlipDiffusionControlNetPipeline,
             BlipDiffusionPipeline,
+            CogVideoXVCtrlImageToVideoPipeline,
+            CogVideoXVCtrlPipeline,
             ConsistencyModelPipeline,
             DanceDiffusionPipeline,
             DDIMPipeline,
