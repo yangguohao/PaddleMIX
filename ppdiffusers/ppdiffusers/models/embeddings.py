@@ -1217,7 +1217,6 @@ def apply_rotary_emb(
         cos, sin = freqs_cis
         cos = cos[None, None]
         sin = sin[None, None]
-
         if use_real_unbind_dim == -1:
             x_real, x_imag = x.reshape([*tuple(x.shape)[:-1], -1, 2]).unbind(axis=-1)
             x_rotated = paddle.stack(x=[-x_imag, x_real], axis=-1).flatten(start_axis=3)
@@ -1227,7 +1226,6 @@ def apply_rotary_emb(
         else:
             raise ValueError(f"`use_real_unbind_dim={use_real_unbind_dim}` but should be -1 or -2.")
         out = (x.astype(dtype="float32") * cos + x_rotated.astype(dtype="float32") * sin).to(x.dtype)
-
         return out
     else:
         x_rotated = paddle.as_complex(x=x.astype(dtype="float32").reshape(*tuple(x.shape)[:-1], -1, 2))
