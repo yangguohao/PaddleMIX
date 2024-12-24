@@ -1124,8 +1124,9 @@ def get_3d_rotary_pos_embed(
     if use_real:
         return cos, sin
     else:
-        freqs_cis = paddle.complex(paddle.ones_like(x=freqs) * paddle.cos(
-            freqs), paddle.ones_like(x=freqs) * paddle.sin(freqs))
+        freqs_cis = paddle.complex(
+            paddle.ones_like(x=freqs) * paddle.cos(freqs), paddle.ones_like(x=freqs) * paddle.sin(freqs)
+        )
         return freqs_cis
 
 
@@ -1204,6 +1205,7 @@ def apply_rotary_emb(
     to the given query or key 'x' tensors using the provided frequency tensor 'freqs_cis'. The input tensors are
     reshaped as complex numbers, and the frequency tensor is reshaped for broadcasting compatibility. The resulting
     tensors contain rotary embeddings and are returned as real tensors.
+
     Args:
         x (`Tensor`):
             Query or key tensor to apply rotary embeddings. [B, H, S, D] xk (Tensor): Key tensor to apply
@@ -1212,30 +1214,26 @@ def apply_rotary_emb(
         Tuple[Tensor, Tensor]: Tuple of modified query tensor and key tensor with rotary embeddings.
     """
     if use_real:
-        cos, sin = freqs_cis  # [S, D]
+        cos, sin = freqs_cis
         cos = cos[None, None]
         sin = sin[None, None]
 
         if use_real_unbind_dim == -1:
-            # Used for flux, cogvideox, hunyuan-dit
-            x_real, x_imag = x.reshape((*x.shape[:-1], -1, 2)).unbind(-1)  # [B, S, H, D//2]
-            x_rotated = paddle.stack([-x_imag, x_real], axis=-1).flatten(3)
+            x_real, x_imag = x.reshape([*tuple(x.shape)[:-1], -1, 2]).unbind(axis=-1)
+            x_rotated = paddle.stack(x=[-x_imag, x_real], axis=-1).flatten(start_axis=3)
         elif use_real_unbind_dim == -2:
-            # Used for Stable Audio
-            x_real, x_imag = x.reshape((*x.shape[:-1], 2, -1)).unbind(-2)  # [B, S, H, D//2]
-            x_rotated = paddle.concat([-x_imag, x_real], axis=-1)
+            x_real, x_imag = x.reshape([*tuple(x.shape)[:-1], 2, -1]).unbind(axis=-2)
+            x_rotated = paddle.concat(x=[-x_imag, x_real], axis=-1)
         else:
             raise ValueError(f"`use_real_unbind_dim={use_real_unbind_dim}` but should be -1 or -2.")
-        out = (x.cast('float32') * cos + x_rotated.cast('float32') * sin)
+        out = (x.astype(dtype="float32") * cos + x_rotated.astype(dtype="float32") * sin).to(x.dtype)
 
         return out
     else:
-        # used for lumina
-        x_rotated = paddle.as_complex(x.cast('float32').reshape((*x.shape[:-1], -1, 2)))
-        freqs_cis = freqs_cis.unsqueeze(2)
-        x_out = paddle.as_real(x_rotated * freqs_cis).flatten(3)
-
-        return x_out.type_as(x)
+        x_rotated = paddle.as_complex(x=x.astype(dtype="float32").reshape(*tuple(x.shape)[:-1], -1, 2))
+        freqs_cis = freqs_cis.unsqueeze(axis=2)
+        x_out = paddle.as_real(x=x_rotated * freqs_cis).flatten(start_axis=3)
+        return x_out.astype(dtype=x.dtype)
 
 
 class CombinedTimestepGuidanceTextProjEmbeddings(nn.Layer):
