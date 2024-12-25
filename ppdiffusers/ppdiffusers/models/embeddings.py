@@ -13,7 +13,7 @@
 # limitations under the License.
 import math
 import warnings
-from typing import Optional, Tuple, Union, List
+from typing import Optional, Tuple, Union
 
 import numpy as np
 import paddle
@@ -1260,7 +1260,7 @@ class CombinedTimestepGuidanceTextProjEmbeddings(nn.Layer):
 
 class FluxPosEmbed(nn.Layer):
     # modified from https://github.com/black-forest-labs/flux/blob/c00d7c60b085fce8058b9df845e036090873f2ce/src/flux/modules/layers.py#L11
-    def __init__(self, theta: int, axes_dim: List[int]):
+    def __init__(self, theta: int, axes_dim: Tuple[int]):
         super().__init__()
         self.theta = theta
         self.axes_dim = axes_dim
